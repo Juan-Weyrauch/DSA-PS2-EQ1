@@ -213,29 +213,71 @@ public class Nodo<T> implements TDAElemento<T> {
         return nodoEliminar;
     }
 
-        @Override
+    @Override
+    public boolean insertar(Comparable<T> nuevoDato) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'insertar'");
+    }
+
+    @Override
     public void preOrder(Consumer<TDAElemento<T>> consumidor) {
         consumidor.accept(this);
-        if(this.hijoIzquierdo !=null) this.hijoIzquierdo.preOrder(consumidor);
-        if(this.hijoDerecho != null) this.hijoDerecho.preOrder(consumidor);
+        if (this.hijoIzquierdo != null)
+            this.hijoIzquierdo.preOrder(consumidor);
+        if (this.hijoDerecho != null)
+            this.hijoDerecho.preOrder(consumidor);
     }
 
     @Override
     public void inOrder(Consumer<TDAElemento<T>> consumidor) {
-        if(this.hijoIzquierdo != null) this.hijoIzquierdo.inOrder(consumidor);
+        if (this.hijoIzquierdo != null)
+            this.hijoIzquierdo.inOrder(consumidor);
         consumidor.accept(this);
-        if (this.hijoDerecho != null) this.hijoDerecho.inOrder(consumidor);
+        if (this.hijoDerecho != null)
+            this.hijoDerecho.inOrder(consumidor);
     }
 
     @Override
     public void postOrder(Consumer<TDAElemento<T>> consumidor) {
-        if(this.hijoIzquierdo != null) this.hijoIzquierdo.postOrder(consumidor);
-        if(this.hijoDerecho != null) this.hijoDerecho.postOrder(consumidor);
+        if (this.hijoIzquierdo != null)
+            this.hijoIzquierdo.postOrder(consumidor);
+        if (this.hijoDerecho != null)
+            this.hijoDerecho.postOrder(consumidor);
         consumidor.accept(this);
     }
 
     @Override
     public boolean esHoja() {
         return this.getHijoDerecho() == null && this.getHijoIzquierdo() == null;
+    }
+
+    @Override
+    public int cantidadHojas() {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'cantidadHojas'");
+    }
+
+    @Override
+    public int cantidadNodosInternos() {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'cantidadNodosInternos'");
+    }
+
+    @Override
+    public int cantidadNodos() {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'cantidadNodos'");
+    }
+
+    @Override
+    public int altura() {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'altura'");
+    }
+
+    @Override
+    public int obtenerNivel(Comparable<T> criterioBusqueda) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'obtenerNivel'");
     }
 }
