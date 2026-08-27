@@ -133,6 +133,7 @@ public class ArbolBinario<T> implements TDAArbolBinario<T> {
     }
 
     // son lo mismo, la de arriba se (me) hace mas facil de leer
+    // ademas separa las responsabilidades bros.
     // @Override
     // public boolean insertar(Comparable<T> dato) {
     // if (raizEsNula()) {
