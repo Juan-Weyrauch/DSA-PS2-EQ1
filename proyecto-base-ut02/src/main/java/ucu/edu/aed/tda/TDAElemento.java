@@ -20,12 +20,12 @@ public interface TDAElemento <T>{
     void setHijoDerecho(TDAElemento<T> hijoDerecho);
 
     /**
-     * Devuelve el hijo derecho del nodo actual. El valor es nulo si no tiene hijo derecho.
+     * Devuelve el hijo izquierdo del nodo actual. El valor es nulo si no tiene hijo izquierdo.
      */
     TDAElemento<T> getHijoIzquierdo();
 
     /**
-     * Devuelve el hijo izquierdo del nodo actual. El valor es nulo si no tiene hijo izquierdo.
+     * Devuelve el hijo derecho del nodo actual. El valor es nulo si no tiene hijo derecho.
      */
     TDAElemento<T> getHijoDerecho();
 
