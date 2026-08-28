@@ -56,7 +56,7 @@ public class Nodo<T> implements TDAElemento<T> {
     public void setDato(T dato) {
         if (dato == null) {
             throw new IllegalArgumentException(
-                    "Dato en 'setDato' de la clase Elemento es null");
+                    "Nodo: Dato en 'setDato' de la clase Elemento es null");
         }
         this.dato = dato;
     }
@@ -65,7 +65,7 @@ public class Nodo<T> implements TDAElemento<T> {
     public TDAElemento<T> buscar(Comparable<T> criterioBusqueda) {
         if (criterioBusqueda == null) {
             throw new IllegalArgumentException(
-                    "criterioBusqueda en el metodo 'buscar' es nulo");
+                    "Nodo: criterioBusqueda en el metodo 'buscar' es nulo");
         }
 
         int criterio = criterioBusqueda.compareTo(this.dato);
@@ -89,7 +89,7 @@ public class Nodo<T> implements TDAElemento<T> {
     public TDAElemento<T> eliminar(Comparable<T> criterioBusqueda) {
         if (criterioBusqueda == null) {
             throw new IllegalArgumentException(
-                    "criterioBusqueda en el metodo 'eliminar' es nulo");
+                    "Nodo: criterioBusqueda en el metodo 'eliminar' es nulo");
         }
 
         int criterio = criterioBusqueda.compareTo(this.dato);
@@ -98,7 +98,7 @@ public class Nodo<T> implements TDAElemento<T> {
         // la raíz del árbol.
         if (criterio == 0) {
             throw new IllegalStateException(
-                    "La eliminacion de la raiz debe ser manejada por el arbol");
+                    "Nodo: La eliminacion de la raiz debe ser manejada por el arbol");
         }
 
         return eliminarRecursivo(this, criterioBusqueda);
@@ -214,41 +214,62 @@ public class Nodo<T> implements TDAElemento<T> {
     }
 
     @Override
-    public boolean insertar(Comparable<T> nuevoDato) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'insertar'");
+    public boolean esHoja() {
+        return this.getHijoDerecho() == null && this.getHijoIzquierdo() == null;
     }
 
     @Override
-    public void preOrder(Consumer<TDAElemento<T>> consumidor) {
-        consumidor.accept(this);
-        if (this.hijoIzquierdo != null)
-            this.hijoIzquierdo.preOrder(consumidor);
-        if (this.hijoDerecho != null)
-            this.hijoDerecho.preOrder(consumidor);
+    public boolean insertar(Comparable<T> nuevoDato) {
+        if (nuevoDato == null) {
+            throw new IllegalArgumentException(
+                    "Nodo: nuevoDato en el metodo 'insertar' es nulo");
+        }
+
+        int comparacion = nuevoDato.compareTo(this.dato);
+
+        if (comparacion == 0) {
+            // no permite duplicados.
+            return false;
+
+        } else if (comparacion < 0) {
+            if (this.getHijoIzquierdo() != null) {
+                return this.getHijoIzquierdo().insertar(nuevoDato);
+            }
+
+            this.setHijoIzquierdo(createNode((T) nuevoDato));
+            return true;
+
+        } else {
+            if (this.getHijoDerecho() != null) {
+                return this.getHijoDerecho().insertar(nuevoDato);
+            }
+
+            this.setHijoDerecho(createNode((T) nuevoDato));
+            return true;
+        }
+    }
+
+    // capaz que ayuda a la legibilidad?
+    private TDAElemento<T> createNode(T data) {
+        return new Nodo<>(data);
     }
 
     @Override
     public void inOrder(Consumer<TDAElemento<T>> consumidor) {
-        if (this.hijoIzquierdo != null)
-            this.hijoIzquierdo.inOrder(consumidor);
-        consumidor.accept(this);
-        if (this.hijoDerecho != null)
-            this.hijoDerecho.inOrder(consumidor);
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'inOrder'");
+    }
+
+    @Override
+    public void preOrder(Consumer<TDAElemento<T>> consumidor) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'preOrder'");
     }
 
     @Override
     public void postOrder(Consumer<TDAElemento<T>> consumidor) {
-        if (this.hijoIzquierdo != null)
-            this.hijoIzquierdo.postOrder(consumidor);
-        if (this.hijoDerecho != null)
-            this.hijoDerecho.postOrder(consumidor);
-        consumidor.accept(this);
-    }
-
-    @Override
-    public boolean esHoja() {
-        return this.getHijoDerecho() == null && this.getHijoIzquierdo() == null;
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'postOrder'");
     }
 
     @Override
