@@ -218,6 +218,7 @@ public class Nodo<T> implements TDAElemento<T> {
         return this.getHijoDerecho() == null && this.getHijoIzquierdo() == null;
     }
 
+    @SuppressWarnings("unchecked")
     @Override
     public boolean insertar(Comparable<T> nuevoDato) {
         if (nuevoDato == null) {
@@ -256,49 +257,151 @@ public class Nodo<T> implements TDAElemento<T> {
 
     @Override
     public void inOrder(Consumer<TDAElemento<T>> consumidor) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'inOrder'");
+        if (consumidor == null) {
+            throw new IllegalArgumentException(
+                    "Nodo: consumidor en el metodo 'inOrder' es nulo.");
+        }
+
+        // hijo Izquierdo -> this.dato -> hijo Derecho
+        if (this.getHijoIzquierdo() != null) {
+            this.getHijoIzquierdo().inOrder(consumidor);
+        }
+        consumidor.accept(this);
+        if (this.getHijoDerecho() != null) {
+            this.getHijoDerecho().inOrder(consumidor);
+        }
     }
 
     @Override
     public void preOrder(Consumer<TDAElemento<T>> consumidor) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'preOrder'");
+        if (consumidor == null) {
+            throw new IllegalArgumentException(
+                    "Nodo: consumidor en el metodo 'preOrder' es nulo.");
+        }
+
+        // this.dato -> hijo Izquierdo -> hijo Derecho
+        consumidor.accept(this);
+        if (this.getHijoIzquierdo() != null) {
+            this.getHijoIzquierdo().preOrder(consumidor);
+        }
+        if (this.getHijoDerecho() != null) {
+            this.getHijoDerecho().preOrder(consumidor);
+        }
     }
 
     @Override
     public void postOrder(Consumer<TDAElemento<T>> consumidor) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'postOrder'");
+        if (consumidor == null) {
+            throw new IllegalArgumentException(
+                    "Nodo: consumidor en el metodo 'postOrder' es nulo.");
+        }
+
+        // hijo Izquierdo -> hijo Derecho -> this.dato
+        if (this.getHijoIzquierdo() != null) {
+            this.getHijoIzquierdo().postOrder(consumidor);
+        }
+        if (this.getHijoDerecho() != null) {
+            this.getHijoDerecho().postOrder(consumidor);
+        }
+        consumidor.accept(this);
     }
 
     @Override
     public int cantidadHojas() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'cantidadHojas'");
+        // la recursion se encarga de la suma, je.
+        if (this.esHoja()) {
+            return 1;
+        }
+
+        int cantidad = 0;
+
+        if (this.getHijoIzquierdo() != null) {
+            cantidad += this.getHijoIzquierdo().cantidadHojas();
+        }
+        if (this.getHijoDerecho() != null) {
+            cantidad += this.getHijoDerecho().cantidadHojas();
+        }
+
+        return cantidad;
     }
 
     @Override
     public int cantidadNodosInternos() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'cantidadNodosInternos'");
+        return this.cantidadNodos() - this.cantidadHojas();
     }
 
     @Override
     public int cantidadNodos() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'cantidadNodos'");
+        int cantidad = 1; // arranca en 1 por el this
+
+        if (this.getHijoIzquierdo() != null) {
+            cantidad += this.getHijoIzquierdo().cantidadNodos();
+        }
+
+        if (this.getHijoDerecho() != null) {
+            cantidad += this.getHijoDerecho().cantidadNodos();
+        }
+
+        return cantidad;
     }
 
     @Override
     public int altura() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'altura'");
+        int alturaIzquierda = 0;
+        int alturaDerecha = 0;
+
+        if (this.getHijoIzquierdo() != null) {
+            alturaIzquierda = this.getHijoIzquierdo().altura();
+        }
+
+        if (this.getHijoDerecho() != null) {
+            alturaDerecha = this.getHijoDerecho().altura();
+        }
+
+        return 1 + Math.max(alturaIzquierda, alturaDerecha); // camino más largo del nodo a una hoja.
     }
 
     @Override
     public int obtenerNivel(Comparable<T> criterioBusqueda) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'obtenerNivel'");
+        if (criterioBusqueda == null) {
+            throw new IllegalArgumentException(
+                    "Nodo: criterioBusqueda en el metodo 'obtenerNivel' es nulo");
+        }
+
+        int comparacion = criterioBusqueda.compareTo(this.dato);
+
+        // Encontramos el nodo.
+        // El nivel relativo respecto de sí mismo es 0.
+        if (comparacion == 0) {
+            return 0;
+        }
+
+        int nivelHijo;
+
+        if (comparacion < 0) {
+            if (this.getHijoIzquierdo() == null) {
+                return -1;
+            }
+
+            nivelHijo = this.getHijoIzquierdo()
+                    .obtenerNivel(criterioBusqueda);
+
+        } else {
+            if (this.getHijoDerecho() == null) {
+                return -1;
+            }
+
+            nivelHijo = this.getHijoDerecho()
+                    .obtenerNivel(criterioBusqueda);
+        }
+
+        // Si el hijo tampoco lo encontró, propagamos el -1.
+        if (nivelHijo == -1) {
+            return -1;
+        }
+
+        // Cada vez que la recursión vuelve hacia arriba,
+        // agregamos un nivel.
+        return 1 + nivelHijo;
     }
 }
