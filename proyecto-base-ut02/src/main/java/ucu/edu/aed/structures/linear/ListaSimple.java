@@ -1,11 +1,13 @@
 package ucu.edu.aed.structures.linear;
 
 import java.util.Comparator;
+import java.util.Iterator;
+import java.util.NoSuchElementException;
 import java.util.function.Predicate;
 
 import ucu.edu.aed.tda.linear.TDALista;
 
-public class ListaSimple<T> implements TDALista<T> {
+public class ListaSimple<T> implements TDALista<T>, Iterable<T> {
 
     protected static class Node<E> {
         E data;
@@ -243,5 +245,27 @@ public class ListaSimple<T> implements TDALista<T> {
         if (comparator == null) {
             throw new IllegalArgumentException("Comparator cannot be null");
         }
+    }
+
+    @Override
+    public Iterator<T> iterator() {
+        return new Iterator<T>() {
+            private Node<T> actual = head;
+
+            @Override
+            public boolean hasNext() {
+                return actual != null;
+            }
+
+            @Override
+            public T next() {
+                if (!hasNext()) {
+                    throw new NoSuchElementException();
+                }
+                T dato = actual.data;
+                actual = actual.next;
+                return dato;
+            }
+        };
     }
 }

@@ -2,6 +2,7 @@ package ucu.edu.aed.ejercicio12;
 
 import ucu.edu.aed.structures.hierarchical.ArbolBinarioBusqueda;
 import ucu.edu.aed.structures.linear.ListaArray;
+import ucu.edu.aed.structures.linear.ListaSimple;
 import ucu.edu.aed.ejercicio12.Hechizo;
 
 public class Grimorio {
@@ -13,13 +14,40 @@ public class Grimorio {
 
     public Grimorio(Hechizo hechizo) {
         this();
-        grimorio.insertar(hechizo);        
+        grimorio.insertar(hechizo);
     }
 
     public void insertar(ListaArray<Hechizo> hechizos) {
         for (int i = 0; i < hechizos.tamaño(); i++) {
             this.grimorio.insertar(hechizos.obtener(i));
         }
+    }
+
+    public ListaSimple<Hechizo> getHechizosProhibidos() {
+        ListaSimple<Hechizo> listaProhibidos = new ListaSimple<>();
+
+        this.grimorio.inOrder(hechizo -> {
+            if (hechizo.getId() % 2 != 0) {
+                listaProhibidos.agregar(hechizo);
+            }
+        });
+
+        return listaProhibidos;
+    }
+
+    public String generarCantico(Grimorio grimorio) {
+        String enchant = "";
+
+        ListaSimple<Hechizo> listaProhibidos = grimorio.getHechizosProhibidos();
+
+        for (Hechizo h : listaProhibidos) {
+            if (!enchant.isEmpty()) {
+                enchant += "-";
+            }
+            enchant += h.getNombre();
+        }
+
+        return enchant;
     }
 
     public static void main(String[] args) {
@@ -50,7 +78,11 @@ public class Grimorio {
         listaHechizos.agregar(hechizo10);
 
         grimorio.insertar(listaHechizos);
-    }
 
+        ListaSimple<Hechizo> listaProhibidos = grimorio.getHechizosProhibidos();
+        listaProhibidos.toString();
+
+        System.out.println(grimorio.generarCantico(grimorio));
+    }
 
 }
