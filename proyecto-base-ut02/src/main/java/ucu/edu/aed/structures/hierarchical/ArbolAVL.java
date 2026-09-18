@@ -8,14 +8,15 @@ public class ArbolAVL<T> extends ArbolBinarioBusqueda<T> implements TDAArbolBina
 
     @Override
     public boolean insertar(Comparable<T> dato) {
-        if (dato == null) return false;
+        if (dato == null)
+            return false;
 
         if (raizEsNula()) {
             establecerRaiz(new NodoAVL<>(convertirADato(dato)));
             return true;
         }
 
-        boolean[] insertado = {false};
+        boolean[] insertado = { false };
 
         TDAElemento<T> nuevaRaiz = ((NodoAVL<T>) obtenerRaiz()).insertar(dato, insertado);
         establecerRaiz(nuevaRaiz);
@@ -25,11 +26,13 @@ public class ArbolAVL<T> extends ArbolBinarioBusqueda<T> implements TDAArbolBina
 
     @Override
     public boolean eliminar(Comparable<T> criterioBusqueda) {
-        if (criterioBusqueda == null) return false;
+        if (criterioBusqueda == null)
+            return false;
 
-        if (raizEsNula()) return false;
+        if (raizEsNula())
+            return false;
 
-        boolean[] eliminado = {false};
+        boolean[] eliminado = { false };
 
         TDAElemento<T> nuevaRaiz = ((NodoAVL<T>) obtenerRaiz()).eliminar(criterioBusqueda, eliminado);
         establecerRaiz(nuevaRaiz);

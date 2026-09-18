@@ -1,3 +1,7 @@
+/*
+ * Este Main fue generado por Codex, a pedido del estudiante,
+ * para probar las implementaciones del ejercicio y mostrar sus resultados.
+ */
 package ucu.edu.aed.ejercicio13;
 
 import ucu.edu.aed.structures.linear.ListaSimple;

@@ -2,7 +2,7 @@ package ucu.edu.aed.structures.element;
 
 import ucu.edu.aed.tda.element.TDAElemento;
 
-public class NodoAVL<T> extends Nodo<T> implements TDAElemento<T>{
+public class NodoAVL<T> extends Nodo<T> implements TDAElemento<T> {
 
     private int altura;
 
@@ -17,7 +17,8 @@ public class NodoAVL<T> extends Nodo<T> implements TDAElemento<T>{
     }
 
     private static <T> int alturaDe(TDAElemento<T> nodo) {
-        if (nodo == null) return 0;
+        if (nodo == null)
+            return 0;
         return nodo.altura();
     }
 
@@ -34,7 +35,8 @@ public class NodoAVL<T> extends Nodo<T> implements TDAElemento<T>{
 
         int comparacion = nuevoDato.compareTo(getDato());
 
-        if (comparacion == 0) return this;
+        if (comparacion == 0)
+            return this;
 
         if (comparacion < 0) {
 
@@ -85,18 +87,23 @@ public class NodoAVL<T> extends Nodo<T> implements TDAElemento<T>{
         } else {
             removido[0] = true;
 
-            if (getHijoIzquierdo() == null && getHijoDerecho() == null) return null;
+            if (getHijoIzquierdo() == null && getHijoDerecho() == null)
+                return null;
 
-            if (getHijoIzquierdo() == null) return getHijoDerecho();
+            if (getHijoIzquierdo() == null)
+                return getHijoDerecho();
 
-            if (getHijoDerecho() == null) return getHijoIzquierdo();
+            if (getHijoDerecho() == null)
+                return getHijoIzquierdo();
 
             NodoAVL<T> sucesor = (NodoAVL<T>) getHijoDerecho();
 
-            while (sucesor.getHijoIzquierdo() != null) sucesor = (NodoAVL<T>) sucesor.getHijoIzquierdo();
+            while (sucesor.getHijoIzquierdo() != null)
+                sucesor = (NodoAVL<T>) sucesor.getHijoIzquierdo();
             setDato(sucesor.getDato());
 
-            TDAElemento<T> nuevoDerecho = ((NodoAVL<T>) getHijoDerecho()).eliminar((Comparable<T>) sucesor.getDato(), new boolean[]{false});
+            TDAElemento<T> nuevoDerecho = ((NodoAVL<T>) getHijoDerecho()).eliminar((Comparable<T>) sucesor.getDato(),
+                    new boolean[] { false });
             setHijoDerecho(nuevoDerecho);
         }
 
@@ -111,14 +118,16 @@ public class NodoAVL<T> extends Nodo<T> implements TDAElemento<T>{
         if (factor > 1) {
             NodoAVL<T> izquierdo = (NodoAVL<T>) getHijoIzquierdo();
 
-            if (izquierdo.factorBalance() < 0) setHijoIzquierdo(izquierdo.rotarIzquierda());
+            if (izquierdo.factorBalance() < 0)
+                setHijoIzquierdo(izquierdo.rotarIzquierda());
             return rotarDerecha();
         }
 
         if (factor < -1) {
             NodoAVL<T> derecho = (NodoAVL<T>) getHijoDerecho();
 
-            if (derecho.factorBalance() > 0) setHijoDerecho(derecho.rotarDerecha());
+            if (derecho.factorBalance() > 0)
+                setHijoDerecho(derecho.rotarDerecha());
             return rotarIzquierda();
         }
 

@@ -1,5 +1,7 @@
 package ucu.edu.aed.tda.element;
 
+import ucu.edu.aed.tda.linear.TDALista;
+
 import java.util.function.Consumer;
 import java.util.function.Predicate;
 
@@ -7,7 +9,7 @@ import java.util.function.Predicate;
  * Modela un nodo del árbol binario.
  * La implementación de esta estructura debe ser recursiva.
  */
-public interface TDAElemento <T>{
+public interface TDAElemento<T> {
 
     /**
      * Asigna el nodo izquierdo del nodo actual. Puede ser nulo.
@@ -20,12 +22,14 @@ public interface TDAElemento <T>{
     void setHijoDerecho(TDAElemento<T> hijoDerecho);
 
     /**
-     * Devuelve el hijo izquierdo del nodo actual. El valor es nulo si no tiene hijo izquierdo.
+     * Devuelve el hijo izquierdo del nodo actual. El valor es nulo si no tiene hijo
+     * izquierdo.
      */
     TDAElemento<T> getHijoIzquierdo();
 
     /**
-     * Devuelve el hijo derecho del nodo actual. El valor es nulo si no tiene hijo derecho.
+     * Devuelve el hijo derecho del nodo actual. El valor es nulo si no tiene hijo
+     * derecho.
      */
     TDAElemento<T> getHijoDerecho();
 
@@ -61,10 +65,10 @@ public interface TDAElemento <T>{
      * {@snippet :
      * // ejemplo de uso
      * elemento.inOrder(dato ->{
-     *     // procesar dato
-     *     // esta función se llama tantas veces como nodos halla en el árbol
+     * // procesar dato
+     * // esta función se llama tantas veces como nodos halla en el árbol
      * });
-     *}
+     * }
      */
     void inOrder(Consumer<TDAElemento<T>> consumidor);
 
@@ -72,10 +76,10 @@ public interface TDAElemento <T>{
      * {@snippet :
      * // ejemplo de uso
      * elemento.preOrder(dato ->{
-     *     // procesar dato
-     *     // esta función se llama tantas veces como nodos halla en el árbol
+     * // procesar dato
+     * // esta función se llama tantas veces como nodos halla en el árbol
      * });
-     *}
+     * }
      */
     void preOrder(Consumer<TDAElemento<T>> consumidor);
 
@@ -83,10 +87,10 @@ public interface TDAElemento <T>{
      * {@snippet :
      * // ejemplo de uso
      * elemento.postOrder(dato ->{
-     *     // procesar dato
-     *     // esta función se llama tantas veces como nodos halla en el árbol
+     * // procesar dato
+     * // esta función se llama tantas veces como nodos halla en el árbol
      * });
-     *}
+     * }
      */
     void postOrder(Consumer<TDAElemento<T>> consumidor);
 
@@ -109,6 +113,24 @@ public interface TDAElemento <T>{
      * retorna la cantidad de nodos que los compone
      */
     int cantidadNodos();
+
+    default int tamaño() {
+        return cantidadNodos();
+    }
+
+    default int hojas() {
+        return cantidadHojas();
+    }
+
+    default int internos() {
+        return cantidadNodosInternos();
+    }
+
+    /** Nodos con ambos hijos, en preorden. */
+    TDALista<TDAElemento<T>> completos();
+
+    /** Nivel relativo al nodo inicial: 0. Rechaza niveles negativos. */
+    TDALista<TDAElemento<T>> enNivel(int nivel);
 
     /**
      * retorna la altura de este nodo

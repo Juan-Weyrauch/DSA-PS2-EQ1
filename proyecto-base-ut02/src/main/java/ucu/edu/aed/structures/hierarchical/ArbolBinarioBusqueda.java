@@ -4,6 +4,8 @@ import java.util.function.Consumer;
 
 import ucu.edu.aed.structures.element.Nodo;
 import ucu.edu.aed.structures.linear.Cola;
+import ucu.edu.aed.structures.linear.ListaArray;
+import ucu.edu.aed.tda.linear.TDALista;
 import ucu.edu.aed.tda.element.TDAElemento;
 import ucu.edu.aed.tda.hierarchical.TDAArbolBinario;
 
@@ -186,6 +188,19 @@ public class ArbolBinarioBusqueda<T> implements TDAArbolBinario<T> {
     // =========================================================
 
     @Override
+    public TDALista<TDAElemento<T>> completos() {
+        return raizEsNula() ? new ListaArray<>() : raiz.completos();
+    }
+
+    @Override
+    public TDALista<TDAElemento<T>> enNivel(int nivel) {
+        if (nivel < 0) {
+            throw new IllegalArgumentException("El nivel no puede ser negativo");
+        }
+        return raizEsNula() ? new ListaArray<>() : raiz.enNivel(nivel);
+    }
+
+    @Override
     public int cantidadNodos() {
         return this.raizEsNula()
                 ? 0
@@ -213,6 +228,7 @@ public class ArbolBinarioBusqueda<T> implements TDAArbolBinario<T> {
      * - árbol vacío: altura 0
      * - árbol con únicamente la raíz: altura 1
      */
+    @Override
     public int altura() {
         return this.raizEsNula()
                 ? 0

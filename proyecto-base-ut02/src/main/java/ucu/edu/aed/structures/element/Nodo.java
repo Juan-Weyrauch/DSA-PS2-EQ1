@@ -3,6 +3,8 @@ package ucu.edu.aed.structures.element;
 import java.util.function.Consumer;
 
 import ucu.edu.aed.tda.element.TDAElemento;
+import ucu.edu.aed.tda.linear.TDALista;
+import ucu.edu.aed.structures.linear.ListaArray;
 
 public class Nodo<T> implements TDAElemento<T> {
 
@@ -13,7 +15,6 @@ public class Nodo<T> implements TDAElemento<T> {
     private T dato;
     private TDAElemento<T> hijoIzquierdo;
     private TDAElemento<T> hijoDerecho;
-
 
     // =========================================================
     // CONSTRUCTORES
@@ -44,7 +45,6 @@ public class Nodo<T> implements TDAElemento<T> {
         this.hijoIzquierdo = hijoIzquierdo;
         this.hijoDerecho = hijoDerecho;
     }
-
 
     // =========================================================
     // ACCESO AL DATO Y A LOS HIJOS
@@ -84,7 +84,6 @@ public class Nodo<T> implements TDAElemento<T> {
     public void setHijoDerecho(TDAElemento<T> hijoDerecho) {
         this.hijoDerecho = hijoDerecho;
     }
-
 
     // =========================================================
     // OPERACIONES DEL ÁRBOL BINARIO DE BÚSQUEDA
@@ -133,8 +132,7 @@ public class Nodo<T> implements TDAElemento<T> {
                 return this.hijoIzquierdo.insertar(nuevoDato);
             }
 
-            this.hijoIzquierdo =
-                    crearNodo(convertirADato(nuevoDato));
+            this.hijoIzquierdo = crearNodo(convertirADato(nuevoDato));
 
             return true;
         }
@@ -143,8 +141,7 @@ public class Nodo<T> implements TDAElemento<T> {
             return this.hijoDerecho.insertar(nuevoDato);
         }
 
-        this.hijoDerecho =
-                crearNodo(convertirADato(nuevoDato));
+        this.hijoDerecho = crearNodo(convertirADato(nuevoDato));
 
         return true;
     }
@@ -158,8 +155,7 @@ public class Nodo<T> implements TDAElemento<T> {
                     "Nodo: criterioBusqueda en el metodo 'eliminar' es nulo");
         }
 
-        int criterio =
-                criterioBusqueda.compareTo(this.dato);
+        int criterio = criterioBusqueda.compareTo(this.dato);
 
         /*
          * Un nodo no puede reemplazarse a sí mismo dentro del árbol.
@@ -175,7 +171,6 @@ public class Nodo<T> implements TDAElemento<T> {
                 this,
                 criterioBusqueda);
     }
-
 
     // =========================================================
     // RECORRIDOS
@@ -235,7 +230,6 @@ public class Nodo<T> implements TDAElemento<T> {
         consumidor.accept(this);
     }
 
-
     // =========================================================
     // INFORMACIÓN ESTRUCTURAL
     // =========================================================
@@ -247,17 +241,56 @@ public class Nodo<T> implements TDAElemento<T> {
     }
 
     @Override
+    public TDALista<TDAElemento<T>> completos() {
+        TDALista<TDAElemento<T>> resultado = new ListaArray<>();
+        if (hijoIzquierdo != null && hijoDerecho != null) {
+            resultado.agregar(this);
+        }
+        if (hijoIzquierdo != null) {
+            agregarTodos(resultado, hijoIzquierdo.completos());
+        }
+        if (hijoDerecho != null) {
+            agregarTodos(resultado, hijoDerecho.completos());
+        }
+        return resultado;
+    }
+
+    @Override
+    public TDALista<TDAElemento<T>> enNivel(int nivel) {
+        if (nivel < 0) {
+            throw new IllegalArgumentException("El nivel no puede ser negativo");
+        }
+        TDALista<TDAElemento<T>> resultado = new ListaArray<>();
+        if (nivel == 0) {
+            resultado.agregar(this);
+            return resultado;
+        }
+        if (hijoIzquierdo != null) {
+            agregarTodos(resultado, hijoIzquierdo.enNivel(nivel - 1));
+        }
+        if (hijoDerecho != null) {
+            agregarTodos(resultado, hijoDerecho.enNivel(nivel - 1));
+        }
+        return resultado;
+    }
+
+    private void agregarTodos(TDALista<TDAElemento<T>> destino,
+            TDALista<TDAElemento<T>> origen) {
+        for (int i = 0; i < origen.tamaño(); i++) {
+            destino.agregar(origen.obtener(i));
+        }
+    }
+
+    @Override
     public int cantidadNodos() {
         int cantidad = 1;
 
         if (this.hijoIzquierdo != null) {
-            cantidad +=
-                    this.hijoIzquierdo.cantidadNodos();
+            cantidad += this.hijoIzquierdo.cantidadNodos();
         }
 
         if (this.hijoDerecho != null) {
-            cantidad +=
-                    this.hijoDerecho.cantidadNodos();
+            cantidad += this.hijoDerecho.cantidadNodos();
         }
 
         return cantidad;
@@ -272,13 +305,11 @@ public class Nodo<T> implements TDAElemento<T> {
         int cantidad = 0;
 
         if (this.hijoIzquierdo != null) {
-            cantidad +=
-                    this.hijoIzquierdo.cantidadHojas();
+            cantidad += this.hijoIzquierdo.cantidadHojas();
         }
 
         if (this.hijoDerecho != null) {
-            cantidad +=
-                    this.hijoDerecho.cantidadHojas();
+            cantidad += this.hijoDerecho.cantidadHojas();
         }
 
         return cantidad;
@@ -296,13 +327,11 @@ public class Nodo<T> implements TDAElemento<T> {
         int alturaDerecha = 0;
 
         if (this.hijoIzquierdo != null) {
-            alturaIzquierda =
-                    this.hijoIzquierdo.altura();
+            alturaIzquierda = this.hijoIzquierdo.altura();
         }
 
         if (this.hijoDerecho != null) {
-            alturaDerecha =
-                    this.hijoDerecho.altura();
+            alturaDerecha = this.hijoDerecho.altura();
         }
 
         /*
@@ -324,8 +353,7 @@ public class Nodo<T> implements TDAElemento<T> {
                     "Nodo: criterioBusqueda en el metodo 'obtenerNivel' es nulo");
         }
 
-        int comparacion =
-                criterioBusqueda.compareTo(this.dato);
+        int comparacion = criterioBusqueda.compareTo(this.dato);
 
         // El nivel del nodo respecto de sí mismo es 0.
         if (comparacion == 0) {
@@ -339,18 +367,16 @@ public class Nodo<T> implements TDAElemento<T> {
                 return -1;
             }
 
-            nivelHijo =
-                    this.hijoIzquierdo
-                            .obtenerNivel(criterioBusqueda);
+            nivelHijo = this.hijoIzquierdo
+                    .obtenerNivel(criterioBusqueda);
 
         } else {
             if (this.hijoDerecho == null) {
                 return -1;
             }
 
-            nivelHijo =
-                    this.hijoDerecho
-                            .obtenerNivel(criterioBusqueda);
+            nivelHijo = this.hijoDerecho
+                    .obtenerNivel(criterioBusqueda);
         }
 
         // Si el dato no existe en el subárbol, propagamos el -1.
@@ -361,7 +387,6 @@ public class Nodo<T> implements TDAElemento<T> {
         // Cada retorno recursivo representa un nivel adicional.
         return 1 + nivelHijo;
     }
-
 
     // =========================================================
     // HELPER METHODS
@@ -375,13 +400,11 @@ public class Nodo<T> implements TDAElemento<T> {
             TDAElemento<T> nodoActual,
             Comparable<T> criterioBusqueda) {
 
-        int criterio =
-                criterioBusqueda.compareTo(
-                        nodoActual.getDato());
+        int criterio = criterioBusqueda.compareTo(
+                nodoActual.getDato());
 
         if (criterio < 0) {
-            TDAElemento<T> hijo =
-                    nodoActual.getHijoIzquierdo();
+            TDAElemento<T> hijo = nodoActual.getHijoIzquierdo();
 
             if (hijo == null) {
                 return null;
@@ -401,8 +424,7 @@ public class Nodo<T> implements TDAElemento<T> {
                     criterioBusqueda);
         }
 
-        TDAElemento<T> hijo =
-                nodoActual.getHijoDerecho();
+        TDAElemento<T> hijo = nodoActual.getHijoDerecho();
 
         if (hijo == null) {
             return null;
@@ -436,11 +458,9 @@ public class Nodo<T> implements TDAElemento<T> {
             TDAElemento<T> nodoEliminar,
             boolean esHijoIzquierdo) {
 
-        TDAElemento<T> izquierdo =
-                nodoEliminar.getHijoIzquierdo();
+        TDAElemento<T> izquierdo = nodoEliminar.getHijoIzquierdo();
 
-        TDAElemento<T> derecho =
-                nodoEliminar.getHijoDerecho();
+        TDAElemento<T> derecho = nodoEliminar.getHijoDerecho();
 
         TDAElemento<T> reemplazo;
 
@@ -448,17 +468,15 @@ public class Nodo<T> implements TDAElemento<T> {
         if (izquierdo == null) {
             reemplazo = derecho;
 
-        // Caso 2: nodo con únicamente hijo izquierdo.
+            // Caso 2: nodo con únicamente hijo izquierdo.
         } else if (derecho == null) {
             reemplazo = izquierdo;
 
-        // Caso 3: nodo con dos hijos.
+            // Caso 3: nodo con dos hijos.
         } else {
-            TDAElemento<T> padreSucesor =
-                    nodoEliminar;
+            TDAElemento<T> padreSucesor = nodoEliminar;
 
-            TDAElemento<T> sucesor =
-                    derecho;
+            TDAElemento<T> sucesor = derecho;
 
             /*
              * El sucesor in-order es el menor elemento
@@ -466,8 +484,7 @@ public class Nodo<T> implements TDAElemento<T> {
              */
             while (sucesor.getHijoIzquierdo() != null) {
                 padreSucesor = sucesor;
-                sucesor =
-                        sucesor.getHijoIzquierdo();
+                sucesor = sucesor.getHijoIzquierdo();
             }
 
             /*

@@ -49,8 +49,7 @@ public class ColaCircular<T> implements TDACola<T> {
         this.vector[this.finalCola] = dato;
 
         // Wraparound
-        this.finalCola =
-                (this.finalCola + 1) % this.capacidad;
+        this.finalCola = (this.finalCola + 1) % this.capacidad;
 
         this.size++;
 
@@ -68,8 +67,7 @@ public class ColaCircular<T> implements TDACola<T> {
         this.vector[this.frente] = null;
 
         // Wraparound
-        this.frente =
-                (this.frente + 1) % this.capacidad;
+        this.frente = (this.frente + 1) % this.capacidad;
 
         this.size--;
 
@@ -117,16 +115,14 @@ public class ColaCircular<T> implements TDACola<T> {
          * usando índices lógicos de la cola.
          */
         for (int i = this.size; i > index; i--) {
-            this.vector[physicalIndex(i)] =
-                    this.vector[physicalIndex(i - 1)];
+            this.vector[physicalIndex(i)] = this.vector[physicalIndex(i - 1)];
         }
 
         this.vector[physicalIndex(index)] = elem;
 
         this.size++;
 
-        this.finalCola =
-                (this.frente + this.size) % this.capacidad;
+        this.finalCola = (this.frente + this.size) % this.capacidad;
     }
 
     @Override
@@ -149,8 +145,7 @@ public class ColaCircular<T> implements TDACola<T> {
 
         // Desplazar los elementos posteriores
         for (int i = index; i < this.size - 1; i++) {
-            this.vector[physicalIndex(i)] =
-                    this.vector[physicalIndex(i + 1)];
+            this.vector[physicalIndex(i)] = this.vector[physicalIndex(i + 1)];
         }
 
         // Limpiar la última posición ocupada
@@ -158,8 +153,7 @@ public class ColaCircular<T> implements TDACola<T> {
 
         this.size--;
 
-        this.finalCola =
-                (this.frente + this.size) % this.capacidad;
+        this.finalCola = (this.frente + this.size) % this.capacidad;
 
         return dato;
     }
@@ -243,7 +237,7 @@ public class ColaCircular<T> implements TDACola<T> {
 
             while (position < sorted.tamaño()
                     && comparator.compare(
-                    sorted.obtener(position), elem) <= 0) {
+                            sorted.obtener(position), elem) <= 0) {
 
                 position++;
             }

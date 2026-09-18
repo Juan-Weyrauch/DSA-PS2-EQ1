@@ -65,8 +65,7 @@ public class NodoGeneral<T> {
         }
 
         for (int i = 0; i < this.hijos.tamaño(); i++) {
-            NodoGeneral<T> encontrado =
-                    this.hijos.obtener(i).buscar(criterioBusqueda);
+            NodoGeneral<T> encontrado = this.hijos.obtener(i).buscar(criterioBusqueda);
 
             if (encontrado != null) {
                 return encontrado;
