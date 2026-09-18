@@ -1,6 +1,8 @@
-package ucu.edu.aed.tda;
+package ucu.edu.aed.tda.hierarchical;
 
 import java.util.function.Consumer;
+
+import ucu.edu.aed.tda.element.TDAElemento;
 
 /**
  * Define un Tipo de Dato Abstracto (TDA) Árbol Binario genérico.

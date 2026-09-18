@@ -1,4 +1,4 @@
-package ucu.edu.aed.tda;
+package ucu.edu.aed.tda.element;
 
 import java.util.function.Consumer;
 import java.util.function.Predicate;
